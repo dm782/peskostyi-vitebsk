@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пескоструйная обработка Витебск | Premium Sandblast</title>
+    <meta name="description" content="Профессиональная пескоструйная обработка в Витебске. +375 (29) 712-91-19. Современная очистка металла.">
+    
+    <!-- Шрифты: Orbitron для заголовков (техно-стиль) и Roboto для текста -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Векторные иконки (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- ПЕРЕМЕННЫЕ И СБРОС --- */
+        :root {
+            --accent: #ffaa00; /* Цвет раскаленного металла / песка */
+            --accent-glow: rgba(255, 170, 0, 0.4);
+            --bg-dark: #0b0b0b;
+            --bg-card: #151515;
+            --text-main: #ffffff;
+            --text-sec: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 11, 11, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        .logo span { color: var(--accent); }
+
+        nav ul { display: flex; gap: 40px; }
+        nav a { font-size: 0.9rem; font-weight: 500; letter-spacing: 1px; }
+        nav a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+
+        .header-phone {
+            color: var(--accent);
+            font-weight: 700;
+            border: 1px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-phone:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .burger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--accent); }
+
+        /* --- HERO SECTION (CANVAS) --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            letter-spacing: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideUp 1s ease-out;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--accent);
+            color: #000;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            border-radius: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        .hero-btn:hover::before { left: 100%; }
+
+        /* --- SEPARATOR (SVG WAVE) --- */
+        .wave-separator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 3;
+        }
+        .wave-separator svg {
+            display: block;
+            width: calc(130% + 1.3px);
+            height: 100px;
+        }
+        .wave-separator .shape-fill { fill: var(--bg-dark); }
+
+        /* --- SERVICES (VECTOR STYLE) --- */
+        .section { padding: 100px 5%; position: relative; }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .section-header .line {
+            width: 80px; height: 4px; background: var(--accent);
+            margin: 0 auto; box-shadow: 0 0 15px var(--accent);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            transition: 0.4s;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+        }
+
+        /* Векторный фон карточки */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 150px; height: 150px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .icon-box {
+            width: 70px; height: 70px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 170, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .icon-box i { font-size: 2rem; color: var(--accent); }
+
+        .service-card h3 { margin-bottom: 15px; font-size: 1.4rem; position: relative; z-index: 1; }
+        .service-card p { color: var(--text-sec); line-height: 1.6; position: relative; z-index: 1; }
+
+        /* --- SVG TECH BACKGROUND FOR BENEFITS --- */
+        .benefits {
+            background-color: #0f0f0f;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a1a1a' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            text-align: left;
+            padding: 30px;
+            border-left: 3px solid var(--accent);
+            background: linear-gradient(90deg, rgba(255,170,0,0.05), transparent);
+        }
+
+        .benefit-item h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.5rem; }
+
+        /* --- CONTACTS --- */
+        .contacts-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .contact-details {
+            flex: 1 1 400px;
+            background: #1a1a1a;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-row {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-icon {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: #222;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 20px;
+            color: var(--accent);
+            font-size: 1.2rem;
+            border: 1px solid #333;
+        }
+
+        .contact-text h4 { color: #fff; margin-bottom: 5px; }
+        .contact-text a, .contact-text span { color: var(--text-sec); font-size: 1.1rem; }
+        .contact-text .big-phone { font-size: 1.5rem; color: #fff; font-weight: 700; }
+
+        .map-container {
+            flex: 1 1 400px;
+            min-height: 400px;
+            position: relative;
+        }
+
+        iframe { width: 100%; height: 100%; border: 0; filter: grayscale(1) invert(1) contrast(1.2); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid #222;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.8rem; }
+            nav {
+                position: absolute; top: 80px; left: 0; width: 100%;
+                background: #111; flex-direction: column; padding: 20px;
+                transform: translateX(100%); transition: 0.3s;
+                border-bottom: 2px solid var(--accent);
+            }
+            nav.active { transform: translateX(0); }
+            nav ul { flex-direction: column; align-items: center; gap: 20px; }
+            .header-phone { display: none; } /* Скрыть в шапке на моб */
+            .burger { display: block; }
+        }
+
+        /* Анимации */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Хедер -->
+    <header>
+        <div class="logo">SAND<span>BLAST</span>.VIT</div>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="#main">ГЛАВНАЯ</a></li>
+                <li><a href="#services">УСЛУГИ</a></li>
+                <li><a href="#features">ПОЧЕМУ МЫ</a></li>
+                <li><a href="#contacts">КОНТАКТЫ</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+375297129119" class="header-phone">
+            <i class="fas fa-mobile-alt"></i> +375 (29) 712-91-19
+        </a>
+        <div class="burger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Главный экран с Canvas анимацией -->
+    <section id="main" class="hero">
+        <!-- Canvas для анимации песка/частиц -->
+        <canvas id="particles-canvas"></canvas>
+        
+        <div class="hero-content">
+            <div class="hero-subtitle">ВИТЕБСК & ОБЛАСТЬ</div>
+            <h1 class="hero-title">ПЕСКОСТРУЙНАЯ<br>ОБРАБОТКА</h1>
+            <p style="color: #ccc; margin-bottom: 40px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Инновационная технология очистки поверхностей. 
+                Идеальная подготовка металла, бетона и дерева к покраске.
+            </p>
+            <a href="tel:+375297129119" class="hero-btn">ЗАКАЗАТЬ РАСЧЕТ</a>
+        </div>
+
+        <!-- Векторный разделитель (волна) -->
+        <div class="wave-separator">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Услуги (Векторные иконки) -->
+    <section id="services" class="section">
+        <div class="section-header">
+            <h2>Что мы чистим</h2>
+            <div class="line"></div>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="icon-box">
+                    <!-- Векторная иконка (FontAwesome - это SVG path под капотом) -->
+                    <i class="fas fa-car-crash"></i>
+                </div>
+                <h3>Авто и Мото</h3>
+                <p>Очистка кузовов, рам, дисков и суппортов от коррозии, битума и старой краски. Бережная обработка VIN-номеров.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon-box">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <h3>Промышленные объекты</h3>
+                <p>Обработка резервуаров, труб, балок перекрытий и станков. Удаление окалины и нефтепродуктов.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon-box">
+                    <i class="fas fa-archway"></i>
+                </div>
+                <h3>Фасады и Камень</h3>
+                <p>Очистка кирпича, бетона, гранита. Удаление граффити и высолов. Эффект искусственного старения древесины.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества (Векторный паттерн на фоне) -->
+    <section id="features" class="section benefits">
+        <div class="section-header">
+            <h2>Технологии</h2>
+            <div class="line"></div>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h3>01. Абразив</h3>
+                <p>Используем купершлак различных фракций для достижения нужной степени шероховатости (Sa 2.5 - Sa 3).</p>
+            </div>
+            <div class="benefit-item">
+                <h3>02. Мобильность</h3>
+                <p>Имеем выездное оборудование. Работаем на вашей территории в любой точке Витебска.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>03. Защита</h3>
+                <p>Возможность грунтования сразу после очистки для предотвращения мгновенной коррозии.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contacts" class="section">
+        <div class="contacts-wrapper">
+            <div class="contact-details">
+                <div class="contact-row">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-text">
+                        <h4>Локация</h4>
+                        <span>г. Витебск</span>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-icon"><i class="fas fa-phone-volume"></i></div>
+                    <div class="contact-text">
+                        <h4>Связь 24/7</h4>
+                        <a href="tel:+375297129119" class="big-phone">+375 (29) 712-91-19</a>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-icon"><i class="fab fa-telegram-plane"></i></div>
+                    <div class="contact-text">
+                        <h4>Мессенджеры</h4>
+                        <span>Viber / Telegram / WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <!-- Яндекс Карта с темной темой (через CSS фильтр) -->
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=30.2033%2C55.1927&z=11" allowfullscreen="true"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 SandBlast Vit. Разработано с вниманием к деталям.</p>
+    </footer>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        // 1. Бургер меню
+        function toggleMenu() {
+            document.getElementById('nav-menu').classList.toggle('active');
+        }
+
+        // 2. Анимация Canvas (Частицы/Песок)
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particlesArray;
+        
+        // Установка размеров
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5; // Размер частицы
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = '#ffaa00'; // Цвет искр/песка
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Эффект затухания при движении мышкой можно добавить, но сделаем просто "летающую пыль"
+                if (this.size > 0.2) this.size -= 0.01; // Частицы мерцают
+                if (this.size <= 0.2) this.size = Math.random() * 2 + 0.5;
+
+                // Границы холста
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            const numberOfParticles = (canvas.height * canvas.width) / 9000; // Плотность частиц
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            // Полупрозрачный фон для создания "шлейфа" (если нужен), здесь просто очистка
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            
+            // Рисуем линии между близкими частицами (сетка)
+            connect();
+            requestAnimationFrame(animate);
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance/10000);
+                        ctx.strokeStyle = 'rgba(255, 170, 0,' + opacityValue * 0.2 + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', function(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+
+    </script>
+</body>
+</html>
